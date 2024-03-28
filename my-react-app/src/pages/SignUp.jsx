@@ -8,8 +8,10 @@ function Signup() {
 
             <input name="p3" type='password' placeholder="Enter Password"></input>
             <br/><br/><br/><br/>
+            <a href="HomePage">
+                <button type="button" id='button'>Sign In</button>
+            </a>
 
-            <button type="button" id='button'>Sign In</button>
             <br/>
             <a href='Register'>
                 <button type="button" id='button'>Register</button>

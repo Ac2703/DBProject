@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from "./Header";
-import Signup from './pages/SignUp';
+import Header from "../Header";
+import Signup from './SignUp';
 
 function App() {
     return (<> <Header/> < Signup /> </>);

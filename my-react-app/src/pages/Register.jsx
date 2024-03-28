@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../Header";
 
+
 function Register() {
     return (
         <div>
@@ -20,7 +21,7 @@ function Register() {
                 <br/>
                 <br/>
 
-                <a href='Register'>
+                <a href='/'>
                     <button type="button" id='button'>Register</button>
                 </a>
             </div>
