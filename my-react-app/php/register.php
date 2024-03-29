@@ -6,24 +6,20 @@ define('DB_PASSWORD', 'ssmalley1');
 define('DB_HOST', 'localhost');
 
 $connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-// Function to check if a table exists in the database
 function tableExists($connection, $tableName) {
     $checkQuery = "SHOW TABLES LIKE '$tableName'";
     $checkResult = mysqli_query($connection, $checkQuery);
     return mysqli_num_rows($checkResult) > 0;
 }
 
-// Check if the accounts table exists, create it if not
-if (!tableExists($connection, "accounts")) {
-    $createTableQuery = "CREATE TABLE accounts (
+if (!tableExists($connection, "Accounts")) {
+    $createTableQuery = "CREATE TABLE Accounts (
                             id INT AUTO_INCREMENT PRIMARY KEY,
                             email VARCHAR(255) NOT NULL,
                             password VARCHAR(255) NOT NULL
                         )";
     mysqli_query($connection, $createTableQuery);
 }
-
-// Check if the request method is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the email and password fields are set
     if (isset($_POST["email"]) && isset($_POST["p1"]) && isset($_POST["p2"])) {
