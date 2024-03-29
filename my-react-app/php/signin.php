@@ -36,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Check if any rows are returned
         if (mysqli_num_rows($result) > 0) {
             echo "Login successful!";
+            header('Location: https://codd.cs.gsu.edu/~ssmalley1/DBSystems/dist/index.html/HomePage');
         } else {
             echo "Incorrect email or password!";
         }
