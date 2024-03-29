@@ -26,30 +26,34 @@ if (!tableExists($connection, "accounts")) {
 // Check if the request method is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the email and password fields are set
-    if (isset($_POST["email"]) && isset($_POST["p3"])) {
+    if (isset($_POST["email"]) && isset($_POST["p1"]) && isset($_POST["p2"])) {
         // Sanitize inputs to prevent SQL injection
-        $email = mysqli_real_escape_string($connection, $_POST["email"]);
-        $password = mysqli_real_escape_string($connection, $_POST["p3"]);
-        
-        // Check if the email is already registered
-        $checkEmailQuery = "SELECT * FROM accounts WHERE email='$email'";
-        $checkEmailResult = mysqli_query($connection, $checkEmailQuery);
-        
-        if (mysqli_num_rows($checkEmailResult) > 0) {
-            // Email already exists
-            echo "Email already registered!";
-        } else {
-            // Insert new user into the database
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password
-            $insertQuery = "INSERT INTO accounts (email, password) VALUES ('$email', '$hashedPassword')";
-            $insertResult = mysqli_query($connection, $insertQuery);
+        if ($_POST["p1"]!=$_POST["p2"]) {
+            echo "Passwords must match";
+        }else{
+            $email = mysqli_real_escape_string($connection, $_POST["email"]);
+            $password = mysqli_real_escape_string($connection, $_POST["p1"]);
             
-            if ($insertResult) {
-                // Registration successful
-                echo "Registration successful!";
+            // Check if the email is already registered
+            $checkEmailQuery = "SELECT * FROM accounts WHERE email='$email'";
+            $checkEmailResult = mysqli_query($connection, $checkEmailQuery);
+            
+            if (mysqli_num_rows($checkEmailResult) > 0) {
+                // Email already exists
+                echo "Email already registered!";
             } else {
-                // Registration failed
-                echo "Registration failed. Please try again later.";
+                // Insert new user into the database
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password
+                $insertQuery = "INSERT INTO accounts (email, password) VALUES ('$email', '$hashedPassword')";
+                $insertResult = mysqli_query($connection, $insertQuery);
+                
+                if ($insertResult) {
+                    // Registration successful
+                    echo "Registration successful!";
+                } else {
+                    // Registration failed
+                    echo "Registration failed. Please try again later.";
+                }
             }
         }
     } else {
