@@ -1,5 +1,5 @@
 {
-  "name": "my-react-app",
+  "name": "vite-project",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,15 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fullcalendar/core": "^6.1.11",
-    "@fullcalendar/daygrid": "^6.1.11",
-    "@fullcalendar/interaction": "^6.1.11",
-    "@fullcalendar/react": "^6.1.11",
-    "@fullcalendar/timegrid": "^6.1.11",
-    "@syncfusion/ej2-react-schedule": "^25.1.39",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
@@ -29,9 +22,5 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "vite": "^5.2.0"
-  },
-  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
-  "main": "vite.config.js",
-  "author": "",
-  "license": "ISC"
+  }
 }

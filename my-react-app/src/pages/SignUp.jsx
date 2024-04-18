@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function Signup() {
     return (
         <div id="yuh">
@@ -8,19 +10,19 @@ function Signup() {
 
             <input name="p3" type='password' placeholder="Enter Password"></input>
             <br/><br/><br/><br/>
-            <a href="HomePage">
-                <button type="button" id='button'>Sign In</button>
-            </a>
+            <Link to="/homePage"> {/* Make sure this path is correct */}
+                <button type="button" id='button'>Sign In</button> {/* Removed duplicate id */}
+            </Link>
 
             <br/>
-            <a href='Register'>
+            <Link to='/register'>
                 <button type="button" id='button'>Register</button>
-            </a>
+            </Link>
 
         </div>
 
     );
-    {}
+    
 }
 
 export default Signup

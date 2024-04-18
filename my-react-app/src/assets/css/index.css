@@ -75,14 +75,12 @@ button:focus-visible {
     font-size: 10px;
 }
 
-#line{
-  width: 100%;
+#line {
+    width: 100%;
     position: absolute;
     height: 4px;
     background-color: #252927;
-    border: none
-    
-
+    border: none;
 }
 
 #yuh {
@@ -125,7 +123,7 @@ input {
     height: 30ch;
     width: 40ch;
     position: absolute;
-    top: 30%;
+    top: 31%;
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
@@ -133,15 +131,16 @@ input {
 }
 
 #some-tasks {
-  background-color: #3a413d;
-  height: 30ch;
-  width: 40ch;
-  position: absolute;
-  top: 70%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
-  border-radius: 25%;
+    background-color: #3a413d;
+    height: 30ch;
+    width: 40ch;
+    position: absolute;
+    top: 69%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    border-radius: 25%;
+    margin-top: 20px;
 }
 
 #all-tasks-text {
@@ -152,4 +151,47 @@ input {
     transform: translate(-50%, -50%);
     font-size: 40px;
     font-weight: 800;
+}
+
+#box1 {
+    display: flex;
+    background-color: #343635;
+    border-radius: 20px;
+    width: 200px;
+    height: 40px;
+    align-items: center;
+    padding-left: 100px;
+
+}
+#box2 {
+    display: flex;
+    background-color: #343635;
+    border-radius: 20px;
+    width: 200px;
+    height: 40px;
+    text-align: start;
+    align-items: center;
+    padding-left: 100px;
+
+}
+
+#cal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 800;
+    width: 600px;
+
+}
+#go {
+    position: absolute;
+    top: 90%;
+    left: 47%;
+}
+
+#AllButton{
+    background-color: #3a413d;
+    height: 250px;
+    width: 290px;
 }
