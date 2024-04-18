@@ -10,7 +10,7 @@ function Signup() {
                 <input id="p3" name="p3" type='password' placeholder="Enter Password"></input>
                 <br/><br/><br/><br/>
                 <a href="HomePage">
-                    <button type="button" id='button'>Sign In</button>
+                    <button type="submit" id='button'>Sign In</button>
                 </a>
 
                 <br/>
@@ -21,7 +21,7 @@ function Signup() {
         </div>
 
     );
-    {}
+
 }
 
 export default Signup

@@ -1,4 +1,4 @@
-import React from "react";
+
 import Header from "../Header";
 
 
@@ -23,14 +23,13 @@ function Register() {
                     <br/>
                 </form>
                 <a href='/'>
-                    <button type="button" id='button'>Register</button>
+                    <button type="submit" id='button'>Register</button>
                 </a>
             </div>
 
         </div>
 
     );
-    {}
 
 }
 
