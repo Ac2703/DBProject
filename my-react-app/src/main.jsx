@@ -5,7 +5,7 @@ import './assets/css/index.css'
 import HomePage from './pages/HomePage.jsx'
 
 import Register from './pages/Register.jsx'
-import {createBrowserRouter, RouterProvider, Route} from "react-router-dom"
+import {createBrowserRouter, RouterProvider} from "react-router-dom"
 
 const router = createBrowserRouter([
     {

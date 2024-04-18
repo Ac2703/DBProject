@@ -1,7 +1,9 @@
+
+
 function Signup() {
     return (
         <div id="yuh">
-            <form method="POST" action="https://codd.cs.gsu.edu/~ssmalley1/DBSystems/php/signin.php">
+            <form method="POST" action="localhost/dbproject/signin.php">
                 <input id="email" name="email" type='email' placeholder="Enter Email"></input>
 
                 <br/>
