@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task View</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        /* Add your CSS styles here */
+        .task {
+            background-color: #3a413d; /* Set background color */
+            padding: 5px; /* Add padding for content */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+            border-radius: 10px; /* Add rounded corners */
+            margin-bottom: 20px; /* Add margin between tasks */
+        }
+
+        /* Optionally, you can add hover effects */
+        .task:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+            transform: translateY(-5px); /* Move the card up slightly on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>AppName</h2>
+    </div>
+    <h2>Tasks</h2>
+    <div id="tasks">
+        <!-- Placeholder for tasks fetched via AJAX -->
+        <!-- Each task will be appended here -->
+    </div>
+
+    <!-- Link to add task page -->
+    <a class="button" href="addtaskpage.php">Add Task</a>
+    <a  class="button" href="homepage.php">Back to Home</a>
+
+    <script>
+        // JavaScript to fetch and display tasks
+        document.addEventListener('DOMContentLoaded', function () {
+            var tasksContainer = document.getElementById('tasks');
+
+            console.log('executing ajax...');
+            // Function to fetch tasks using AJAX
+            function fetchTasks() {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var tasks = JSON.parse(xhr.responseText);
+                            displayTasks(tasks);
+                        } else {
+                            console.error('Failed to fetch tasks');
+                        }
+                    }
+                };
+                xhr.open('GET', 'get_tasks.php', true);
+                xhr.send();
+            }
+            console.log('ajax executed');
+
+            // Function to display tasks
+            function displayTasks(tasks) {
+                tasks.forEach(function(task) {
+                    var taskDiv = document.createElement('div');
+                    taskDiv.classList.add('task');
+                    taskDiv.innerHTML = `
+                        <h3>${task.name}</h3>
+                        <p><strong>Due Date:</strong> ${task.dueDate}</p>
+                        <p><strong>Tag:</strong> ${task.tag}</p>
+                        <p><strong>Description:</strong> ${task.desc}</p>
+                        <p><strong>Status:</strong> ${task.status}</p>
+                    `;
+                    tasksContainer.appendChild(taskDiv);
+                });
+            }
+
+            // Call the function to fetch tasks
+            fetchTasks();
+        });
+    </script>
+</body>
+</html>

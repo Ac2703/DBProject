@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <script>
+        function appendMessage(message) {
+            var msgbox = document.getElementById("msgbox");
+            msgbox.innerHTML += "<p>" + message + "</p>";
+        }
+        function clearMessage() {
+            var msgbox = document.getElementById("msgbox");
+            msgbox.innerHTML = "";
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h2>AppName</h2>
+    </div>
+    
+    <div id="yuh">
+        <h2>Login</h2>
+        <form action="../php/login.php" method="POST">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required><br><br>
+            <input id = "sign" type="submit" value="Sign In">
+            <p>Don't have an account? <a href="registrationpage.html">Register here</a>.</p>
+        </form>
+    </div>
+    
+</body>
+</html>
