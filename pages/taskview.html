@@ -37,69 +37,73 @@
     <a  class="button" href="homepage.php">Back to Home</a>
 
     <script>
-        // JavaScript to fetch and display tasks
-        document.addEventListener('DOMContentLoaded', function () {
-            var tasksContainer = document.getElementById('tasks');
+        // Declare tasksContainer variable outside the event listener
+        var tasksContainer;
 
-            console.log('executing ajax...');
-            // Function to fetch tasks using AJAX
-            function fetchTasks() {
+        // Function to delete task
+        function deleteTask(taskId) {
+            if (confirm("Are you sure you want to delete this task?")) {
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
-                            var tasks = JSON.parse(xhr.responseText);
-                            displayTasks(tasks);
+                            // Reload tasks after deletion
+                            tasksContainer.innerHTML = '';
+                            fetchTasks(); // Call fetchTasks here
                         } else {
-                            console.error('Failed to fetch tasks');
+                            console.error('Failed to delete task');
                         }
                     }
                 };
-                xhr.open('GET', 'get_tasks.php', true);
-                xhr.send();
+                xhr.open('POST', 'delete_task.php', true);
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.send('id=' + taskId); // Send task ID as a key-value pair
             }
-            console.log('ajax executed');
+        }
 
-            // Function to display tasks
-            function displayTasks(tasks) {
-                tasks.forEach(function(task) {
-                    var taskDiv = document.createElement('div');
-                    taskDiv.classList.add('task');
-                    taskDiv.innerHTML = `
-                        <h3><u>${task.name}</u></h3>
-                        <p><strong>Due Date:</strong> ${task.dueDate}</p>
-                        <p><strong>Tag:</strong> ${task.tag}</p>
-                        <p><strong>Description:</strong> ${task.desc}</p>
-                        <p><strong>Status:</strong> ${task.status}</p>
-                        <button onclick="deleteTask('${task.id}')">Delete</button>
-                    `;
-                    tasksContainer.appendChild(taskDiv);
-                });
-            }
-                 // Function to delete task
-            function deleteTask(taskId) {
-                if (confirm("Are you sure you want to delete this task?")) {
-                    var xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState === XMLHttpRequest.DONE) {
-                            if (xhr.status === 200) {
-                                // Reload tasks after deletion
-                                tasksContainer.innerHTML = '';
-                                fetchTasks();
-                            } else {
-                                console.error('Failed to delete task');
-                            }
-                        }
-                    };
-                    xhr.open('POST', 'delete_task.php', true);
-                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    xhr.send('id=' + taskId);
+        // Function to fetch tasks using AJAX
+        function fetchTasks() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var tasks = JSON.parse(xhr.responseText);
+                        displayTasks(tasks);
+                    } else {
+                        console.error('Failed to fetch tasks');
+                    }
                 }
-            }
+            };
+            xhr.open('GET', 'get_tasks.php', true);
+            xhr.send();
+        }
+
+        // JavaScript to fetch and display tasks
+        document.addEventListener('DOMContentLoaded', function () {
+            tasksContainer = document.getElementById('tasks'); // Assign value to tasksContainer
+
+            console.log('executing ajax...');
 
             // Call the function to fetch tasks
             fetchTasks();
         });
+
+        // Function to display tasks
+        function displayTasks(tasks) {
+            tasks.forEach(function(task) {
+                var taskDiv = document.createElement('div');
+                taskDiv.classList.add('task');
+                taskDiv.innerHTML = `
+                    <h3><u>${task.name}</u></h3>
+                    <p><strong>Due Date:</strong> ${task.dueDate}</p>
+                    <p><strong>Tag:</strong> ${task.tag}</p>
+                    <p><strong>Description:</strong> ${task.desc}</p>
+                    <p><strong>Status:</strong> ${task.status}</p>
+                    <button onclick="deleteTask('${task.id}')">Delete</button>
+                `;
+                tasksContainer.appendChild(taskDiv);
+            });
+        }
     </script>
 </body>
 </html>
