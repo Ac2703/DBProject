@@ -23,6 +23,8 @@ session_start();
         <div class="button-container">
             <a href="taskview.html" class="button">Task View</a>
             <a href="calendar.html" class="button">Calendar View</a>
+            <a href="expenses.html" class="button">Expense View</a>
+            <a href="goals.html" class="button">Goal View</a>
         </div>
     </div>
 </body>
