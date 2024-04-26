@@ -6,6 +6,10 @@ $username = "ssmalley1"; // Replace with your MySQL username
 $password = "ssmalley1"; // Replace with your MySQL password
 $database = "ssmalley1"; // Replace with your database name
 
+// Establishing connection to the database
+$conn = new mysqli($servername, $username, $password, $database);
+
+
 // FILTERING TASKS
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -27,36 +31,30 @@ $database = "ssmalley1"; // Replace with your database name
         // SQL query to filter tasks 
 
         $sql_filter = "SELECT * FROM Tasks;";
-        // $sql_filter = "SELECT * FROM Tasks WHERE
-        //                                             (('$due_date_before_target' IS NULL OR (due_date <= '$due_date_before_target')) 
-        //                                                     AND (('$due_date_before_target' IS NULL OR (due_date >= '$due_date_before_target')))
-        //                                             AND   
-        //                                             (('$tag_existence' IS NULL) OR
-        //                                                 ('$tag_existence' = 'IN' AND tag IN ('$tag_targets'))
-        //                                                     OR ('$tag_existence' = 'NOT IN' AND tag NOT IN ('$tag_targets')))
-        //                                             AND 
-        //                                             (('$status_value' IS NULL) OR
-        //                                                 (status = '$status_value'));";
+        // $sql_filter = "SELECT * FROM Tasks 
+        // WHERE 
+        //     ('$due_date_before_target' IS NULL OR due_date <= '$due_date_before_target')
+        // AND ('$due_date_after_target' IS NULL OR due_date >= '$due_date_after_target')
+        // AND ('$tag_existence' IS NULL 
+        //     OR ('$tag_existence' = 'IN' AND tag IN ('$tag_targets'))
+        //     OR ('$tag_existence' = 'NOT IN' AND tag NOT IN ('$tag_targets')))
+        // AND ('$status_value' IS NULL OR status = '$status_value');";
 
         $result = $conn->query($sql_filter);
 
         $tasks = array();
-        if ($result) {
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $tasks[] = array(
-                        'name' => $row['task_name'],
-                        'dueDate' => $row['due_date'],
-                        'tag' => $row['tag'],
-                        'desc' => $row['description'],
-                        'status' => $row['status']
-                    );
-                }
-            } 
-        } else {
-            echo "Error filtering tasks: " . $conn->error;
-        }
-    }
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $tasks[] = array(
+                    'name' => $row['task_name'],
+                    'dueDate' => $row['due_date'],
+                    'tag' => $row['tag'],
+                    'desc' => $row['description'],
+                    'status' => $row['status']
+                );
+            }
+        } 
+    } 
 
 
 $conn->close();

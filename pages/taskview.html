@@ -43,6 +43,7 @@
                 <div class="form-group">
                     <label for="status_value">Status:</label>
                     <select name="status_value" id="status_value">
+                        <option label=" "></option>
                         <option value="Complete">Complete</option>
                         <option value="In Progress">In Progress</option>
                         <option value="Not Started">Not Started</option>
@@ -50,17 +51,21 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="tag_existence">Status:</label>
+                    <label for="tag_existence">Tag:</label>
                     <select name="tag_existence" id="tag_existence">
+                        <option label=" "></option>
                         <option value="Is">Is</option>
-                        <option value="Is Not">Is Not</option>
-                    </select>
-                    <select name="tag_targets" id="tag_targets">
-                        <option value="tag_targets">Complete</option>
-                        <option value="tag_targets">In Progress</option>
+                        <!-- <option value="Is Not">Is Not</option> -->
                     </select>
                 </div>
-    
+                <div class="form-group">
+                    <label>Select Tags:</label><br>
+                    <select name="tag_targets[]" id="tag_targets" multiple>
+                        <?php foreach ($unique_tags as $unique_tag): ?>
+                            <option value="<?php echo $unique_tag; ?>"><?php echo $unique_tag; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
                 <button type="submit" class="btn submit">Submit</button>
             </form>
         </div>
@@ -83,7 +88,6 @@
             var tasksContainer = document.getElementById('tasks');
             var filterForm = document.getElementById('filterForm'); // Correct ID for the form
             var filterBtn = document.getElementById('filterBtn'); // Correct ID for the button
-            var filterTaskForm = document.getElementById('filterTaskForm');
             var submitFilterBtn = document.getElementById('submitFilter');
 
              // Event listener to toggle form visibility
@@ -95,6 +99,18 @@
                 }
             });
 
+            // Function to populate the <select> element for tags
+            function populateTags(tags) {
+                var tagSelect = document.getElementById('tag_targets');
+                tagSelect.innerHTML = '<option label=" "></option>';
+                tags.forEach(function(tag) {
+                    var option = document.createElement('option');
+                    option.value = tag;
+                    option.text = tag;
+                    tagSelect.appendChild(option);
+                });
+            }
+
             console.log('executing ajax...');
             // Function to fetch tasks using AJAX
             function fetchTasks() {
@@ -102,8 +118,11 @@
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
-                            var tasks = JSON.parse(xhr.responseText);
+                            var response = JSON.parse(xhr.responseText);
+                            var tasks = response.tasks;
+                            var tags = response.tags;
                             displayTasks(tasks);
+                            populateTags(tags);
                         } else {
                             console.error('Failed to fetch tasks');
                         }
@@ -116,6 +135,10 @@
 
             // Function to display tasks
             function displayTasks(tasks) {
+                // Clear existing tasks
+                tasksContainer.innerHTML = '';
+
+                // Append new tasks
                 tasks.forEach(function(task) {
                     var taskDiv = document.createElement('div');
                     taskDiv.classList.add('task');
@@ -130,17 +153,19 @@
                 });
             }
 
+            // Call the function to fetch tasks initially
+            fetchTasks();
+
             // Event listener for form submission
             submitFilterBtn.addEventListener('click', function(event) {
                 event.preventDefault(); // Prevent form submission
-                var formData = new FormData(filterTaskForm); // Get form data
+                var formData = new FormData(filterForm); // Get form data
                 var params = new URLSearchParams(formData).toString(); // Convert form data to URL-encoded string
                 fetchFilteredTasks(params); // Fetch filtered tasks
             });
 
-            console.log('executing ajax...');
-            // Function to fetch tasks using AJAX
-            function fetchFilteredTasks() {
+            // Function to fetch filtered tasks using AJAX
+            function fetchFilteredTasks(params) {
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -152,11 +177,12 @@
                         }
                     }
                 };
-                xhr.open('POST', 'get_tasks.php', true);
-                xhr.send();
+                xhr.open('POST', '../php/filtertasks.php', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send(params);
             }
-            // Call the function to fetch tasks initially
-            fetchTasks();
+        
+
         });
 
         

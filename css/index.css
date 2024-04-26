@@ -215,4 +215,8 @@ container {
     margin-left: 10px; /* Adjust margin as needed */
 }
 
+.form-group div {
+    display: inline-block;
+    vertical-align: top;
+}
 

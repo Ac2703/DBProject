@@ -12,6 +12,18 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Fetch unique tag values from the database
+$sql = "SELECT DISTINCT tag FROM Tasks";
+$result = $conn->query($sql);
+
+// Store unique tag values in an array
+$unique_tags = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $unique_tags[] = $row['tag'];
+    }
+}
+
 // Fetch all tasks and their due dates from the database
 $sql = "SELECT task_name, due_date, tag, description, status FROM Tasks";
 $result = $conn->query($sql);
@@ -33,6 +45,13 @@ if ($result->num_rows > 0) {
 $conn->close();
 
 // Return tasks as JSON
+// Return tasks and unique tag values as JSON
+$response = array(
+    'tasks' => $tasks,
+    'tags' => $unique_tags
+);
+
 header('Content-Type: application/json');
-echo json_encode($tasks);
+echo json_encode($response);
+
 ?>
