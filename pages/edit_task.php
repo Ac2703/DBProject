@@ -34,13 +34,14 @@
                 // Check if the form is submitted
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Get form data
+                    $taskName = $_POST['taskName'];
                     $dueDate = $_POST['dueDate'];
                     $tag = $_POST['tag'];
                     $description = $_POST['description'];
                     $status = $_POST['status'];
 
                     // Prepare and execute SQL query to update task
-                    $sql = "UPDATE Tasks SET due_date='$dueDate', tag='$tag', description='$description', status='$status' WHERE TaskID=$taskId";
+                    $sql = "UPDATE Tasks SET task_name='$taskName', due_date='$dueDate', tag='$tag', description='$description', status='$status' WHERE TaskID=$taskId";
                     if ($conn->query($sql) === TRUE) {
                         echo "Task updated successfully.";
                         header("Location: taskview.html");
@@ -56,26 +57,31 @@
                 if ($result->num_rows > 0) {
                     $task = $result->fetch_assoc();
         ?>
-        <form action="" method="POST">
-            <input type="hidden" name="taskId" value="<?php echo $task['TaskID']; ?>">
-            <label for="dueDate">Due Date:</label>
-            <input type="date" id="dueDate" name="dueDate" value="<?php echo $task['due_date']; ?>"><br><br>
+        <div id="yuh">
+            <form action="" method="POST">
+                <input type="hidden" name="taskId" value="<?php echo $task['TaskID']; ?>">
+                <label for="taskName">Task Name:</label>
+                <input type="text" id="taskName" name="taskName" value="<?php echo $task['task_name']; ?>"><br><br>
 
-            <label for="tag">Tag:</label>
-            <input type="text" id="tag" name="tag" value="<?php echo $task['tag']; ?>"><br><br>
+                <label for="dueDate">Due Date:</label>
+                <input type="date" id="dueDate" name="dueDate" value="<?php echo $task['due_date']; ?>"><br><br>
 
-            <label for="description">Description:</label><br>
-            <textarea id="description" name="description" rows="4" cols="50"><?php echo $task['description']; ?></textarea><br><br>
+                <label for="tag">Tag:</label>
+                <input type="text" id="tag" name="tag" value="<?php echo $task['tag']; ?>"><br><br>
 
-            <label for="status">Status:</label>
-            <select id="status" name="status">
-                <option value="complete" <?php if ($task['status'] == 'complete') echo 'selected'; ?>>Complete</option>
-                <option value="in progress" <?php if ($task['status'] == 'in progress') echo 'selected'; ?>>In Progress</option>
-                <option value="not started" <?php if ($task['status'] == 'not started') echo 'selected'; ?>>Not Started</option>
-            </select><br><br>
+                <label for="description">Description:</label><br>
+                <textarea id="description" name="description" rows="4" cols="50"><?php echo $task['description']; ?></textarea><br><br>
 
-            <input type="submit" value="Update Task">
-        </form>
+                <label for="status">Status:</label>
+                <select id="status" name="status">
+                    <option value="complete" <?php if ($task['status'] == 'complete') echo 'selected'; ?>>Complete</option>
+                    <option value="in progress" <?php if ($task['status'] == 'in progress') echo 'selected'; ?>>In Progress</option>
+                    <option value="not started" <?php if ($task['status'] == 'not started') echo 'selected'; ?>>Not Started</option>
+                </select><br><br>
+
+                <input type="submit" value="Update Task">
+            </form>
+        </div>
         <?php
                 } else {
                     echo "Task not found.";
