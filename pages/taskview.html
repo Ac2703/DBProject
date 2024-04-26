@@ -26,7 +26,48 @@
     <div class="header">
         <h2>AppName</h2>
     </div>
+
     <h2>Tasks</h2>
+    <div class="container">
+        <button id="filterBtn" class="filter-button">Filter</button>
+    
+        <div id="filterForm" class="form-popup">
+            <form action="../php/filtertasks.php" method="POST" class="form-container">
+                <div class="form-group">
+                    <label for="due_date_before_target">Before:</label>
+                    <input type="date" id="due_date_before_target" name="due_date_before_target"><br>
+                    <label for="due_date_after_target">After:</label>
+                    <input type="date" id="due_date_after_target" name="due_date_after_target"><br><br>
+                </div>
+    
+                <div class="form-group">
+                    <label for="status_value">Status:</label>
+                    <select name="status_value" id="status_value">
+                        <option value="Complete">Complete</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Not Started">Not Started</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tag_existence">Status:</label>
+                    <select name="tag_existence" id="tag_existence">
+                        <option value="Is">Is</option>
+                        <option value="Is Not">Is Not</option>
+                    </select>
+                    <select name="tag_targets" id="tag_targets">
+                        <option value="tag_targets">Complete</option>
+                        <option value="tag_targets">In Progress</option>
+                    </select>
+                </div>
+    
+                <button type="submit" class="btn submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    
+    
+
     <div id="tasks">
         <!-- Placeholder for tasks fetched via AJAX -->
         <!-- Each task will be appended here -->
@@ -34,12 +75,25 @@
 
     <!-- Link to add task page -->
     <a class="button" href="addtaskpage.php">Add Task</a>
-    <a  class="button" href="homepage.php">Back to Home</a>
+    <a class="button" href="homepage.php">Back to Home</a>
 
     <script>
         // JavaScript to fetch and display tasks
         document.addEventListener('DOMContentLoaded', function () {
             var tasksContainer = document.getElementById('tasks');
+            var filterForm = document.getElementById('filterForm'); // Correct ID for the form
+            var filterBtn = document.getElementById('filterBtn'); // Correct ID for the button
+            var filterTaskForm = document.getElementById('filterTaskForm');
+            var submitFilterBtn = document.getElementById('submitFilter');
+
+             // Event listener to toggle form visibility
+            filterBtn.addEventListener('click', function() {
+                if (filterForm.style.display === "none" || filterForm.style.display === "") {
+                    filterForm.style.display = "block";
+                } else {
+                    filterForm.style.display = "none";
+                }
+            });
 
             console.log('executing ajax...');
             // Function to fetch tasks using AJAX
@@ -76,9 +130,36 @@
                 });
             }
 
-            // Call the function to fetch tasks
+            // Event listener for form submission
+            submitFilterBtn.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent form submission
+                var formData = new FormData(filterTaskForm); // Get form data
+                var params = new URLSearchParams(formData).toString(); // Convert form data to URL-encoded string
+                fetchFilteredTasks(params); // Fetch filtered tasks
+            });
+
+            console.log('executing ajax...');
+            // Function to fetch tasks using AJAX
+            function fetchFilteredTasks() {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var tasks = JSON.parse(xhr.responseText);
+                            displayTasks(tasks);
+                        } else {
+                            console.error('Failed to fetch filtered tasks');
+                        }
+                    }
+                };
+                xhr.open('POST', 'get_tasks.php', true);
+                xhr.send();
+            }
+            // Call the function to fetch tasks initially
             fetchTasks();
         });
+
+        
     </script>
 </body>
 </html>

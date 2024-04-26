@@ -146,3 +146,73 @@ height: 60px;
     color: white;
     font-size: 13px;
 }
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button {
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    width: 280px;
+}
+  
+container {
+    text-align: center;
+}
+
+.filter-button {
+    background-color: #4CAF50;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.form-popup {
+    display: none;
+    position: absolute;
+    background-color: #1a1515;
+    border: 1px solid #1b1515;
+    border-radius: 5px;
+    padding: 20px;
+    width: 300px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container label {
+    margin-bottom: 5px;
+}
+
+.form-container input[type="date"] {
+    margin-bottom: 10px;
+}
+
+.btn.submit {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+}
+
+.form-group select {
+    margin-left: 10px; /* Adjust margin as needed */
+}
+
+

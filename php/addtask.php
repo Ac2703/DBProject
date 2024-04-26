@@ -1,10 +1,12 @@
 
 <?php
-    // Database connection
-    $servername = "localhost";
-    $username = "ssmalley1"; // Replace with your MySQL username
-    $password = "ssmalley1"; // Replace with your MySQL password
-    $database = "ssmalley1"; // Replace with your database name
+// Database connection parameters
+$servername = "localhost";
+$username = "ssmalley1"; // Replace with your MySQL username
+$password = "ssmalley1"; // Replace with your MySQL password
+$database = "ssmalley1"; // Replace with your database name
+
+// Create connection
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Create connection
@@ -55,3 +57,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $conn->close();
 ?>
+
