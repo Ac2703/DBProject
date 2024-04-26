@@ -47,9 +47,8 @@ if(isset($_POST['email']) && isset($_POST['password']) && isset($_POST['verify_p
 
     if ($result->num_rows > 0) {
         // Email already registered
-        session_start();
-        header("Location: ../pages/test.html");
-        exit();    } else {
+        echo "An account with this email already exists.";
+    } else {
         // Check if passwords match
         if ($password !== $verify_password) {
             // Passwords don't match

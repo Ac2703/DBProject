@@ -12,7 +12,7 @@ session_start();
     <link rel="stylesheet" href="../css/index.css">
 </head>
 <body>
-    <div id="header3">
+    <div class="header">
         <div class="user-info">
             <span>Welcome, <?php echo $loggedInUser; ?>!</span>
             <a href="../php/logout.php">Sign Out</a>

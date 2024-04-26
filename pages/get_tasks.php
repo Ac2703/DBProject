@@ -13,13 +13,14 @@ if ($conn->connect_error) {
 }
 
 // Fetch all tasks and their due dates from the database
-$sql = "SELECT task_name, due_date, tag, description, status FROM Tasks";
+$sql = "SELECT TaskID, task_name, due_date, tag, description, status FROM Tasks";
 $result = $conn->query($sql);
 
 $tasks = array();
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $tasks[] = array(
+            'id' => $row['TaskID']
             'name' => $row['task_name'],
             'dueDate' => $row['due_date'],
             'tag' => $row['tag'],

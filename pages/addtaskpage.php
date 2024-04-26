@@ -1,6 +1,6 @@
 <?php
 session_start();
-    // Retrieve the value of $loggedInUser from the cookie set in login.php
+
     $loggedInUser = isset($_COOKIE['loggedInUser']) ? $_COOKIE['loggedInUser'] : '';
 ?>
 <!DOCTYPE html>
