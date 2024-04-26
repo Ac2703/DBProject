@@ -100,6 +100,7 @@
                     <p><strong>Description:</strong> ${task.desc}</p>
                     <p><strong>Status:</strong> ${task.status}</p>
                     <button onclick="deleteTask('${task.id}')">Delete</button>
+                    <a class="button" href="edit_task.php?id=${task.id}">Edit</a>
                 `;
                 tasksContainer.appendChild(taskDiv);
             });
