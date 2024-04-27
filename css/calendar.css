@@ -1,37 +1,37 @@
 
-
 * {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
 }
- 
+
 .page {
     display: flex;
-    background: #3a413d;
+    background-color: #706b6b;
     min-height: 100vh;
     padding: 0 10px;
     align-items: center;
     justify-content: center;
 }
- 
+
 .calendar-container {
     background: #fff;
-    border-radius: 10px;
+    border-radius: 15px;
+
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
 }
- 
+
 .calendar-container header {
     display: flex;
     align-items: center;
     padding: 25px 30px 10px;
     justify-content: space-between;
 }
- 
+
 header .calendar-navigation {
     display: flex;
 }
- 
+
 header .calendar-navigation span {
     height: 38px;
     width: 38px;
@@ -44,61 +44,59 @@ header .calendar-navigation span {
     color: #aeabab;
     font-size: 1.9rem;
 }
- 
 .calendar-navigation span:last-child {
     margin-right: -10px;
 }
- 
 header .calendar-navigation span:hover {
     background: #f2f2f2;
 }
- 
+
 header .calendar-current-date {
     font-weight: 500;
     font-size: 1.45rem;
 }
- 
+
 .calendar-body {
     padding: 20px;
 }
- 
+
 .calendar-body ul {
     list-style: none;
     flex-wrap: wrap;
     display: flex;
     text-align: center;
 }
- 
+
 .calendar-body .calendar-dates {
     margin-bottom: 20px;
 }
- 
+
 .calendar-body li {
     width: calc(100% / 7);
     font-size: 1.07rem;
     color: #414141;
 }
- 
+
 .calendar-body .calendar-weekdays li {
     cursor: default;
     font-weight: 500;
 }
- 
+
 .calendar-body .calendar-dates li {
     margin-top: 30px;
     position: relative;
     z-index: 1;
     cursor: pointer;
 }
- 
+
 .calendar-dates li.inactive {
     color: #aaa;
 }
- 
+
 .calendar-dates li.active {
     color: #fff;
 }
- 
+
 .calendar-dates li::before {
     position: absolute;
     content: "";
@@ -110,11 +108,10 @@ header .calendar-current-date {
     border-radius: 50%;
     transform: translate(-50%, -50%);
 }
- 
+
 .calendar-dates li.active::before {
     background: #6332c5;
 }
- 
 .calendar-dates li:not(.active):hover::before {
     background: #e4e1e1;
 }
@@ -124,3 +121,36 @@ header .calendar-current-date {
     border-radius: 20%;
 }
 
+#top {
+    position: absolute;
+    height: 60px;
+    width: 100%;
+    left: 0;
+    top: 0;
+    text-align: left;
+    background: #3a413d;
+    color: white;
+    font-size: 13px;
+}
+
+#back{
+    position: absolute;
+    top: 30%;
+    left: 2%;
+}
+
+#back2 {
+    background-color: #3a413d;  /* Dark gray-green background */
+    color: #ffffff;            /* White text color */
+    border: none;              /* No border */
+    padding: 5px 20px;        /* Padding around the text */
+    font-size: 16px;           /* Font size */
+    font-weight: bold;         /* Bold font */
+    border-radius: 5px;        /* Rounded corners */
+    cursor: pointer;           /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+#back2:hover {
+    background-color: #4a524d; /* Slightly lighter gray-green on hover */
+}
