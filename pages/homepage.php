@@ -1,8 +1,3 @@
-<?php
-session_start();
-    // Retrieve the value of $loggedInUser from the cookie set in login.php
-    $loggedInUser = isset($_COOKIE['loggedInUser']) ? $_COOKIE['loggedInUser'] : '';
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,6 +21,56 @@ session_start();
             <a href="expenses.html" class="button">Expense View</a>
             <a href="goals.html" class="button">Goal View</a>
         </div>
+        <div id="updates">
+            <!-- Updates will be displayed here -->
+        </div>
     </div>
+
+    <script>
+        // Function to fetch updates using AJAX
+        function fetchUpdates() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var updates = JSON.parse(xhr.responseText);
+                        displayUpdates(updates);
+                    } else {
+                        console.error('Failed to fetch updates');
+                    }
+                }
+            };
+            xhr.open('GET', 'fetch_updates.php', true);
+            xhr.send();
+        }
+        // Function to display updates
+        function displayUpdates(updates) {
+            var updatesDiv = document.getElementById('updates');
+            if (updates.length > 0) {
+                var html = '<h3>Updates</h3><ul>';
+                updates.forEach(function(update) {
+                    html += '<li>';
+                    // Loop through each key-value pair in the update
+                    Object.keys(update).forEach(function(key) {
+                        // Check if the value is not null
+                        if (update[key] !== null) {
+                            html += '<strong>' + key + ':</strong> ' + update[key] + '<br>';
+                        }
+                    });
+                    html += '</li>';
+                });
+                html += '</ul>';
+                updatesDiv.innerHTML = html;
+            } else {
+                updatesDiv.innerHTML = '<p>No updates for today</p>';
+            }
+        }
+
+        // Fetch updates when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchUpdates();
+        });
+
+    </script>
 </body>
 </html>
