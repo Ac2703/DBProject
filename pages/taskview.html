@@ -27,6 +27,26 @@
         <h2>AppName</h2>
     </div>
     <h2>Tasks</h2>
+
+    <!-- Search input field -->
+    <input type="text" id="searchInput" placeholder="Search tasks...">
+    <br><br>
+
+    <!-- Date range input fields -->
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate">
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate">
+    <br><br>
+
+    <!-- Tag filter dropdown -->
+    <label for="tagFilter">Tag:</label>
+    <select id="tagFilter">
+        <option value="">All</option> <!-- Default option to show all tasks -->
+        <!-- Placeholder for distinct tag values fetched via AJAX -->
+    </select>
+    <br><br>
+
     <div id="tasks">
         <!-- Placeholder for tasks fetched via AJAX -->
         <!-- Each task will be appended here -->
@@ -34,7 +54,7 @@
 
     <!-- Link to add task page -->
     <a class="button" href="addtaskpage.php">Add Task</a>
-    <a  class="button" href="homepage.php">Back to Home</a>
+    <a class="button" href="homepage.php">Back to Home</a>
 
     <script>
         // Declare tasksContainer variable outside the event listener
@@ -86,10 +106,64 @@
 
             // Call the function to fetch tasks
             fetchTasks();
+
+            // Attach event listener to search input field
+            var searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function() {
+                filterTasks();
+            });
+
+            // Attach event listener to date range input fields
+            var startDateInput = document.getElementById('startDate');
+            var endDateInput = document.getElementById('endDate');
+            startDateInput.addEventListener('input', function() {
+                filterTasks();
+            });
+            endDateInput.addEventListener('input', function() {
+                filterTasks();
+            });
+
+            // Fetch distinct tag values and populate the dropdown menu
+            fetchDistinctTags();
+
+                        // Attach event listener to tag filter dropdown
+            var tagFilter = document.getElementById('tagFilter');
+            tagFilter.addEventListener('change', function() {
+                filterTasks();
+            });
         });
+
+        // Function to fetch distinct tag values and populate the dropdown menu
+        function fetchDistinctTags() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var distinctTags = JSON.parse(xhr.responseText);
+                        populateTagFilter(distinctTags);
+                    } else {
+                        console.error('Failed to fetch distinct tags');
+                    }
+                }
+            };
+            xhr.open('GET', 'get_distinct_tags.php', true);
+            xhr.send();
+        }
+
+        // Function to populate the tag filter dropdown with distinct tag values
+        function populateTagFilter(distinctTags) {
+            var tagFilter = document.getElementById('tagFilter');
+            distinctTags.forEach(function(tag) {
+                var option = document.createElement('option');
+                option.value = tag;
+                option.textContent = tag;
+                tagFilter.appendChild(option);
+            });
+        }
 
         // Function to display tasks
         function displayTasks(tasks) {
+            tasksContainer.innerHTML = ''; // Clear previous tasks
             tasks.forEach(function(task) {
                 var taskDiv = document.createElement('div');
                 taskDiv.classList.add('task');
@@ -103,6 +177,44 @@
                     <a class="button" href="edit_task.php?id=${task.id}">Edit</a>
                 `;
                 tasksContainer.appendChild(taskDiv);
+            });
+        }
+
+        // Function to filter tasks based on search query, date range, and tag
+        function filterTasks() {
+            var searchInput = document.getElementById('searchInput').value.toLowerCase();
+            var startDate = document.getElementById('startDate').value;
+            var endDate = document.getElementById('endDate').value;
+            var tagFilter = document.getElementById('tagFilter').value.toLowerCase();
+
+            var tasks = document.querySelectorAll('.task');
+            tasks.forEach(function(task) {
+                var taskName = task.querySelector('h3').textContent.toLowerCase();
+                var taskTag = task.querySelector('p:nth-child(3)').textContent.toLowerCase();
+                var taskDueDate = task.querySelector('p:nth-child(2)').textContent;
+                var taskDate = new Date(taskDueDate);
+
+                // Check if task matches search query
+                var matchSearch = taskName.includes(searchInput);
+
+                // Check if task falls within the date range
+                var matchDateRange = true;
+                if (startDate && endDate) {
+                    var taskDateTime = taskDate.getTime();
+                    var startDateTime = new Date(startDate).getTime();
+                    var endDateTime = new Date(endDate).getTime();
+                    matchDateRange = taskDateTime >= startDateTime && taskDateTime <= endDateTime;
+                }
+
+                // Check if task matches selected tag
+                var matchTag = tagFilter === '' || taskTag.includes(tagFilter);
+
+                // Show task only if it matches all filter criteria
+                if (matchSearch && matchDateRange && matchTag) {
+                    task.style.display = 'block';
+                } else {
+                    task.style.display = 'none';
+                }
             });
         }
     </script>
