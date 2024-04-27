@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goals</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        /* Add your CSS styles here */
+        .goal {
+            background-color: #3a413d; /* Set background color */
+            padding: 5px; /* Add padding for content */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+            border-radius: 10px; /* Add rounded corners */
+            margin-bottom: 20px; /* Add margin between goals */
+        }
+
+        /* Optionally, you can add hover effects */
+        .goal:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+            transform: translateY(-5px); /* Move the card up slightly on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Goals</h2>
+    </div>
+    <br/>
+    <!-- Add goal form -->
+    <br/>
+    <form id="addGoalForm">
+        <label for="goalName">Goal:</label>
+        <input type="text" id="goalName" required>
+        <label for="expectedCompletionDate">Expected Completion Date:</label>
+        <input type="date" id="expectedCompletionDate">
+        <button type="submit" class="button">Add Goal</button>
+    </form>
+<br/>
+    <div id="goals">
+        <!-- Placeholder for goals fetched via AJAX -->
+        <!-- Each goal will be appended here -->
+    </div>
+    <a class="button" href="homepage.php">Back to Home</a>
+    <script>
+        // Declare goalsContainer variable outside the event listener
+        var goalsContainer;
+
+        // Function to fetch goals using AJAX
+        function fetchGoals() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var goals = JSON.parse(xhr.responseText);
+                        displayGoals(goals);
+                    } else {
+                        console.error('Failed to fetch goals');
+                    }
+                }
+            };
+            xhr.open('GET', 'get_goals.php', true);
+            xhr.send();
+        }
+
+        // JavaScript to fetch and display goals
+        document.addEventListener('DOMContentLoaded', function () {
+            goalsContainer = document.getElementById('goals'); // Assign value to goalsContainer
+
+            // Call the function to fetch goals
+            fetchGoals();
+
+            // Attach event listener to add goal form
+            var addGoalForm = document.getElementById('addGoalForm');
+            addGoalForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+                var goalName = document.getElementById('goalName').value;
+                var expectedCompletionDate = document.getElementById('expectedCompletionDate').value;
+                addGoal(goalName, expectedCompletionDate);
+            });
+        });
+
+        // Function to add a new goal
+        function addGoal(goalName, expectedCompletionDate) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Clear input fields after adding goal
+                        document.getElementById('goalName').value = '';
+                        document.getElementById('expectedCompletionDate').value = '';
+                        // Reload goals after adding
+                        goalsContainer.innerHTML = '';
+                        fetchGoals();
+                    } else {
+                        console.error('Failed to add goal');
+                    }
+                }
+            };
+            xhr.open('POST', 'add_goal.php', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send('name=' + goalName + '&expectedCompletionDate=' + expectedCompletionDate);
+        }
+
+        // Function to delete goal
+        function deleteGoal(goalId) {
+            if (confirm("Are you sure you want to delete this goal?")) {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            // Reload goals after deletion
+                            goalsContainer.innerHTML = '';
+                            fetchGoals();
+                        } else {
+                            console.error('Failed to delete goal');
+                        }
+                    }
+                };
+                xhr.open('POST', 'delete_goal.php', true);
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.send('id=' + goalId); // Send goal ID as a key-value pair
+            }
+        }
+
+        // Function to display goals
+        function displayGoals(goals) {
+            goals.forEach(function(goal) {
+                var goalDiv = document.createElement('div');
+                goalDiv.classList.add('goal');
+                goalDiv.innerHTML = `
+                    <h3><u>${goal.name}</u></h3>
+                    <p><strong>Expected Completion Date:</strong> ${goal.expected_completion_date}</p>
+                    <button onclick="deleteGoal('${goal.id}')" class="button">Delete</button>
+                    <a class="button" href="edit_goal.php?id=${goal.id}">Edit</a>
+                `;
+                goalsContainer.appendChild(goalDiv);
+            });
+        }
+    </script>
+</body>
+</html>
